@@ -26,4 +26,6 @@ public interface IFachada {
     public List<Autor> consultarAutores();
     
     public Usuario consultarUsuario(String nombre);
+    
+    public boolean registrarUsuario(Usuario usuario);
 }

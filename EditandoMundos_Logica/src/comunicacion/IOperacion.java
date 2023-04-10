@@ -6,6 +6,7 @@ package comunicacion;
 
 import Entidades.Autor;
 import Entidades.Publicacion;
+import Entidades.Usuario;
 import java.util.List;
 
 /**
@@ -30,6 +31,9 @@ public interface IOperacion {
     
     public boolean verificarUsuario(String nombre, String password);
     
+    public boolean registrarUsuario(String nombreUsuario, String password, String nombreCliente, 
+            String telefono, String direccion, String email, boolean esAutor);
+    
     public float mostrarCosto(int nPaginas);
     
     public float mostrarPrecioFisico(String nacionalidad, float costo);
@@ -39,4 +43,10 @@ public interface IOperacion {
     public boolean validarCadenaEntero(String cadena);
     
     public boolean validarDecimal(String cadena);
+    
+    public boolean validarTelefono(String cadena);
+    
+    public boolean validarEmail(String cadena);
+    
+    public boolean validarFecha(String cadena);
 }

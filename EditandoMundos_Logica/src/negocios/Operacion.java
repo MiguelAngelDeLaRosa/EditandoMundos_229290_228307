@@ -107,6 +107,17 @@ public class Operacion implements IOperacion {
         JOptionPane.showMessageDialog(null, "Usuario inexistente");
         return valido;
     }
+    
+    @Override
+    public boolean registrarUsuario(String nombreUsuario, String password, String nombreCliente, 
+            String telefono, String direccion, String email, boolean esAutor) {
+        Usuario user = new Usuario(nombreUsuario, password, nombreCliente, telefono, direccion, email, esAutor);
+        if (fachada.registrarUsuario(user)){
+            JOptionPane.showMessageDialog(null, "Se registro el usuario");
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public float mostrarCosto(int nPaginas) {
@@ -137,4 +148,23 @@ public class Operacion implements IOperacion {
         Validadores validar = new Validadores();
         return validar.validaDoble(cadena);
     }
+
+    @Override
+    public boolean validarTelefono(String cadena) {
+        Validadores validar = new Validadores();
+        return validar.validaTelefono(cadena);
+    }
+
+    @Override
+    public boolean validarEmail(String cadena) {
+        Validadores validar = new Validadores();
+        return validar.validaEmail(cadena);
+    }
+
+    @Override
+    public boolean validarFecha(String cadena) {
+        Validadores validar = new Validadores();
+        return validar.validaFecha(cadena);
+    }
+
 }

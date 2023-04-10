@@ -51,4 +51,17 @@ public class UsuarioDAO implements IUsuarioDAO {
             return null;
         }
     }
+
+    @Override
+    public boolean registrarUsuario(Usuario usuario) {
+        try {
+            MongoCollection coleccion = getCollection();
+            coleccion.insertOne(usuario);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }

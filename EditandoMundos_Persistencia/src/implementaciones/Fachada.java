@@ -58,4 +58,9 @@ public class Fachada implements IFachada {
     public List<Publicacion> consultarPublicacionesPorTitulo(String titulo) {
         return publicacionDAO.consultarPublicacionesPorTitulo(titulo);
     }
+
+    @Override
+    public boolean registrarUsuario(Usuario usuario) {
+        return usuarioDAO.registrarUsuario(usuario);
+    }
 }

@@ -13,4 +13,6 @@ import Entidades.Usuario;
 public interface IUsuarioDAO {
     
     public Usuario consultarUsuario(String nombre);
+    
+    public boolean registrarUsuario(Usuario usuario);
 }
