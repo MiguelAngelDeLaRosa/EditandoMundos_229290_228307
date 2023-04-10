@@ -14,22 +14,44 @@ import org.bson.types.ObjectId;
 public class Usuario {
     
     private ObjectId id;
-    private String nombre;
+    private String nombreUsuario;
     private String password;
+    private String nombreCliente;
+    private String telefono;
+    private String direccion;
+    private String email;
+    private boolean esAutor;
+    
 
     public Usuario(){
         
     }
-    
-    public Usuario(String nombre, String password) {
-        this.nombre = nombre;
+
+    public Usuario(String nombreUsuario, String password, boolean esAutor) {
+        this.nombreUsuario = nombreUsuario;
         this.password = password;
+        this.esAutor = esAutor;
     }
 
-    public Usuario(ObjectId id, String nombre, String password) {
-        this.id = id;
-        this.nombre = nombre;
+    public Usuario(String nombreUsuario, String password, String nombreCliente, String telefono, String direccion, String email, boolean esAutor) {
+        this.nombreUsuario = nombreUsuario;
         this.password = password;
+        this.nombreCliente = nombreCliente;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.email = email;
+        this.esAutor = esAutor;
+    }
+
+    public Usuario(ObjectId id, String nombreUsuario, String password, String nombreCliente, String telefono, String direccion, String email, boolean esAutor) {
+        this.id = id;
+        this.nombreUsuario = nombreUsuario;
+        this.password = password;
+        this.nombreCliente = nombreCliente;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.email = email;
+        this.esAutor = esAutor;
     }
 
     public ObjectId getId() {
@@ -40,16 +62,56 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isEsAutor() {
+        return esAutor;
+    }
+
+    public void setEsAutor(boolean esAutor) {
+        this.esAutor = esAutor;
     }
 
     public void setPassword(String password) {
@@ -83,8 +145,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", password=" + password + '}';
+        return "Usuario{" + "id=" + id + ", nombreUsuario=" + nombreUsuario + ", password=" + password + ", nombreCliente=" + nombreCliente + ", telefono=" + telefono + ", direccion=" + direccion + ", email=" + email + ", esAutor=" + esAutor + '}';
     }
-    
     
 }
