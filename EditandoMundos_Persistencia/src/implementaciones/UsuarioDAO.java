@@ -38,7 +38,7 @@ public class UsuarioDAO implements IUsuarioDAO {
             MongoCollection<Usuario> coleccion = this.getCollection();
             List<Document> etapas = new ArrayList<>();
             etapas.add(new Document().append("$match", new Document()
-                    .append("nombre", nombre)));
+                    .append("nombreUsuario", nombre)));
             List<Usuario> usuario = new LinkedList<>();
             coleccion.aggregate(etapas).into(usuario);
             if(usuario.get(0) == null){

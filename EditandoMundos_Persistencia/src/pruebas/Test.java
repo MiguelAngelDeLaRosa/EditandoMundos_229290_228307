@@ -44,9 +44,10 @@ public class Test {
 //        fachada.consultarPublicaciones().forEach(publicaciones->{
 //            System.out.println(publicaciones);
 //        });
-        fachada.consultarPublicacionesPorTitulo("P").forEach(p->{
-            System.out.println(p);
-        });
+//        fachada.consultarPublicacionesPorTitulo("P").forEach(p->{
+//            System.out.println(p);
+//        });
+        System.out.println(fachada.consultarUsuario("Mike"));
     }
     
 }
