@@ -91,8 +91,8 @@ public class Operacion implements IOperacion {
     }
     
     @Override
-    public boolean consultarTipoDeUsuario(String nombre){
-        return fachada.consultarUsuario(nombre).isEsAutor();
+    public Usuario consultarTipoDeUsuario(String nombre){
+        return fachada.consultarUsuario(nombre);
     }
     
     @Override

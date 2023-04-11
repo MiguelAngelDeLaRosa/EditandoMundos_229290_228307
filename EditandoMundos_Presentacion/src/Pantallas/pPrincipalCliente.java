@@ -6,6 +6,7 @@
 package Pantallas;
 
 import Entidades.Publicacion;
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import java.util.List;
@@ -17,14 +18,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class pPrincipalCliente extends javax.swing.JFrame {
 
-    DefaultTableModel dtmPublicaciones;
-    IOperacion op;
+    private DefaultTableModel dtmPublicaciones;
+    private IOperacion op;
+    private Usuario usuario;
+    
 
     /**
      * Creates new form pPrincipalCliente
+     * @param usuario
      */
-    public pPrincipalCliente() {
+    public pPrincipalCliente(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
         this.txtBuscar.setVisible(true);
         this.btnBuscar.setVisible(true);
         op = SOperacion.getOperacion();
@@ -86,6 +91,8 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnSalir = new javax.swing.JButton();
+        btnRegAutor = new javax.swing.JButton();
+        btnRegPubli = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
@@ -111,19 +118,48 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             }
         });
 
+        btnRegAutor.setBackground(new java.awt.Color(0, 204, 204));
+        btnRegAutor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnRegAutor.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegAutor.setText("Registrar Autor");
+        btnRegAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegAutorActionPerformed(evt);
+            }
+        });
+
+        btnRegPubli.setBackground(new java.awt.Color(0, 204, 204));
+        btnRegPubli.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnRegPubli.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegPubli.setText("Registrar Publicación");
+        btnRegPubli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegPubliActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRegAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRegPubli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
+                .addComponent(btnRegAutor)
+                .addGap(18, 18, 18)
+                .addComponent(btnRegPubli)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -218,8 +254,25 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBuscarKeyTyped
 
+    private void btnRegAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegAutorActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        pRegistrarAutor pRegAutor= new pRegistrarAutor(usuario);
+        pRegAutor.setVisible(true);
+    }//GEN-LAST:event_btnRegAutorActionPerformed
+
+    private void btnRegPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegPubliActionPerformed
+        // TODO add your handling code here:
+
+        dispose();
+        pTipoPublicacion pTipoPub= new pTipoPublicacion(usuario);
+        pTipoPub.setVisible(true);
+    }//GEN-LAST:event_btnRegPubliActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnRegAutor;
+    private javax.swing.JButton btnRegPubli;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

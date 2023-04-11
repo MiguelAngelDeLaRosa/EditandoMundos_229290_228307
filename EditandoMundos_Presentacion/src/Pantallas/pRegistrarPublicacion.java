@@ -6,6 +6,7 @@
 package Pantallas;
 
 import Entidades.Autor;
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import java.util.List;
@@ -17,19 +18,32 @@ import javax.swing.JOptionPane;
  */
 public class pRegistrarPublicacion extends javax.swing.JFrame {
 
-    IOperacion op;
+    private IOperacion op;
+    private Usuario usuario;
 
     /**
      * Creates new form pPrincipalCliente
      *
      * @param tipoPublicacion
+     * @param user
      */
-    public pRegistrarPublicacion(String tipoPublicacion) {
+    public pRegistrarPublicacion(String tipoPublicacion, Usuario user) {
         initComponents();
+        this.usuario = user;
         op = SOperacion.getOperacion();
         llenarCombobox();
         this.txtTipoPublicacion.setText(tipoPublicacion);
         elegirTipoPublicacion();
+        ocultarCampos();
+    }
+
+    private void ocultarCampos() {
+        if (usuario != null) {
+            if (usuario.isEsAutor()) {
+                this.lblAutor.setVisible(false);
+                this.cmbAutor.setVisible(false);
+            }
+        }
     }
 
     private void llenarCombobox() {
@@ -38,12 +52,12 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
             cmbAutor.addItem(autor);
         }
         String tipoPagos[] = {"Efectivo", "Transferencia", "Tarjeta"};
-        for (String pago : tipoPagos){
+        for (String pago : tipoPagos) {
             cmbTipoPago.addItem(pago);
         }
     }
-    
-    public void vaciarCampos(){
+
+    public void vaciarCampos() {
         this.txtPaginas.setText("");
         this.txtTitulo.setText("");
         this.txtVar.setText("");
@@ -92,12 +106,26 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         return valido;
     }
 
+    private Autor crearAutor() {
+        Autor autor;
+        if (usuario != null) {
+            if (usuario.isEsAutor()) {
+                autor = new Autor(usuario.getNombreCliente());
+            } else {
+                autor = (Autor) this.cmbAutor.getSelectedItem();
+            }
+        } else {
+            autor = (Autor) this.cmbAutor.getSelectedItem();
+        }
+        return autor;
+    }
+
     private void registrarPublicacion() {
         pMostrarCosto pCostos;
         if (!camposVacios()) {
             if (validarCampos()) {
                 if (jlbVar.getText().equals("Fisico")) {
-                    Autor autor = (Autor) this.cmbAutor.getSelectedItem();
+                    Autor autor = crearAutor();
                     int nPaginas = Integer.parseInt(this.txtPaginas.getText());
                     String titulo = this.txtTitulo.getText();
                     int paginaInicial = Integer.parseInt(this.txtVar.getText());
@@ -105,11 +133,11 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                     String tipoPago = (String) this.cmbTipoPago.getSelectedItem();
                     float costo = op.mostrarCosto(nPaginas);
                     float precioVenta = op.mostrarPrecioFisico(autor.getNacionalidad(), costo);
-                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas);
+                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas, usuario);
                     pCostos.setVisible(true);
                     pCostos.sendDataFisico(autor, titulo, paginaInicial);
                 } else {
-                    Autor autor = (Autor) this.cmbAutor.getSelectedItem();
+                    Autor autor = crearAutor();
                     int nPaginas = Integer.parseInt(this.txtPaginas.getText());
                     String titulo = this.txtTitulo.getText();
                     float tamMegas = Float.parseFloat(this.txtVar.getText());
@@ -117,12 +145,21 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                     String tipoPago = (String) this.cmbTipoPago.getSelectedItem();
                     float costo = op.mostrarCosto(nPaginas);
                     float precioVenta = op.mostrarPrecioDigital(tamMegas, costo);
-                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas);
+                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas, usuario);
                     pCostos.setVisible(true);
                     pCostos.sendDataDigital(autor, titulo, tamMegas);
                 }
             }
         }
+    }
+
+    private void cambiarDestino() {
+        if (usuario.isEsAutor()) {
+            pConsultarPublicacion pConsPubli = new pConsultarPublicacion(usuario);
+            pConsPubli.setVisible(true);
+        }
+        pPrincipalCliente pCliente = new pPrincipalCliente(usuario);
+        pCliente.setVisible(true);
     }
 
     /**
@@ -141,7 +178,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         btnConsulPubli = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblAutor = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtPaginas = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -223,9 +260,9 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 255));
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Autor:");
+        lblAutor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblAutor.setForeground(new java.awt.Color(0, 0, 0));
+        lblAutor.setText("Autor:");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
@@ -252,7 +289,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         btnAceptar.setBackground(new java.awt.Color(0, 204, 204));
         btnAceptar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText("Cotizar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -317,7 +354,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
+                            .addComponent(lblAutor)
                             .addComponent(jlbVar)
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -342,7 +379,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblAutor)
                     .addComponent(cmbAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -416,15 +453,14 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     private void btnRegAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegAutorActionPerformed
         // TODO add your handling code here:
         dispose();
-        pRegistrarAutor pRegAutor = new pRegistrarAutor();
+        pRegistrarAutor pRegAutor = new pRegistrarAutor(usuario);
         pRegAutor.setVisible(true);
     }//GEN-LAST:event_btnRegAutorActionPerformed
 
     private void btnConsulPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulPubliActionPerformed
         // TODO add your handling code here:
         dispose();
-        pConsultarPublicacion pConsPubli = new pConsultarPublicacion();
-        pConsPubli.setVisible(true);
+        cambiarDestino();
     }//GEN-LAST:event_btnConsulPubliActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -442,7 +478,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         dispose();
-        pPrincipalEditor pEditor = new pPrincipalEditor();
+        pPrincipalEditor pEditor = new pPrincipalEditor(usuario);
         pEditor.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -455,14 +491,14 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
 
     private void txtPaginasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaginasKeyTyped
         char c = evt.getKeyChar();
-        if(Character.isLetter(c)){
+        if (Character.isLetter(c)) {
             evt.consume();
         }
     }//GEN-LAST:event_txtPaginasKeyTyped
 
     private void txtVarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtVarKeyTyped
         char c = evt.getKeyChar();
-        if(Character.isLetter(c)){
+        if (Character.isLetter(c)) {
             evt.consume();
         }
     }//GEN-LAST:event_txtVarKeyTyped
@@ -481,7 +517,6 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     private javax.swing.JComboBox<Object> cmbAutor;
     private javax.swing.JComboBox<String> cmbTipoPago;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -490,6 +525,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel jlbVar;
+    private javax.swing.JLabel lblAutor;
     private javax.swing.JTextField txtPaginas;
     private javax.swing.JTextField txtTipoPublicacion;
     private javax.swing.JTextField txtTitulo;

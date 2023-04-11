@@ -5,6 +5,7 @@
  */
 package Pantallas;
 
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 
@@ -42,6 +43,7 @@ public class pLogin extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         txtPassword = new javax.swing.JPasswordField();
         btnRegistrarse = new javax.swing.JButton();
+        btnInicioSinLog = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +67,7 @@ public class pLogin extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Usuario:");
 
-        btnIngresar.setBackground(new java.awt.Color(0, 153, 204));
+        btnIngresar.setBackground(new java.awt.Color(204, 204, 204));
         btnIngresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(0, 0, 0));
         btnIngresar.setText("Ingresar");
@@ -75,7 +77,7 @@ public class pLogin extends javax.swing.JFrame {
             }
         });
 
-        btnSalir.setBackground(new java.awt.Color(0, 153, 204));
+        btnSalir.setBackground(new java.awt.Color(204, 204, 204));
         btnSalir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
@@ -85,13 +87,23 @@ public class pLogin extends javax.swing.JFrame {
             }
         });
 
-        btnRegistrarse.setBackground(new java.awt.Color(0, 153, 204));
+        btnRegistrarse.setBackground(new java.awt.Color(204, 204, 204));
         btnRegistrarse.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarse.setText("Registrarse");
         btnRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarseActionPerformed(evt);
+            }
+        });
+
+        btnInicioSinLog.setBackground(new java.awt.Color(204, 204, 204));
+        btnInicioSinLog.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnInicioSinLog.setForeground(new java.awt.Color(0, 0, 0));
+        btnInicioSinLog.setText("Entrar sin iniciar sesion");
+        btnInicioSinLog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInicioSinLogActionPerformed(evt);
             }
         });
 
@@ -123,7 +135,8 @@ public class pLogin extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(btnIngresar)
                                     .addGap(62, 62, 62)
-                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnInicioSinLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -145,7 +158,9 @@ public class pLogin extends javax.swing.JFrame {
                     .addComponent(btnSalir))
                 .addGap(36, 36, 36)
                 .addComponent(btnRegistrarse)
-                .addGap(95, 95, 95))
+                .addGap(18, 18, 18)
+                .addComponent(btnInicioSinLog)
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,12 +187,13 @@ public class pLogin extends javax.swing.JFrame {
         String usuario = this.txtUsuario.getText();
         if (op.verificarUsuario(usuario, this.txtPassword.getText())) {
             dispose();
-            boolean esAutor = op.consultarTipoDeUsuario(usuario);
+            Usuario user = op.consultarTipoDeUsuario(usuario);
+            boolean esAutor = user.isEsAutor();
             if (esAutor) {
-                pPrincipalEditor pEditor = new pPrincipalEditor();
+                pPrincipalEditor pEditor = new pPrincipalEditor(user);
                 pEditor.setVisible(true);
             } else {
-                pPrincipalCliente pCliente = new pPrincipalCliente();
+                pPrincipalCliente pCliente = new pPrincipalCliente(user);
                 pCliente.setVisible(true);
             }
         }
@@ -193,6 +209,14 @@ public class pLogin extends javax.swing.JFrame {
         pUser.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnRegistrarseActionPerformed
+
+    private void btnInicioSinLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioSinLogActionPerformed
+        // TODO add your handling code here:
+        Usuario user = null;
+        pPrincipalCliente pCliente = new pPrincipalCliente(user);
+        pCliente.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnInicioSinLogActionPerformed
 
     /**
      * @param args the command line arguments
@@ -231,6 +255,7 @@ public class pLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnInicioSinLog;
     private javax.swing.JButton btnRegistrarse;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;

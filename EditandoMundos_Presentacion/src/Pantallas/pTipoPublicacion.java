@@ -5,17 +5,23 @@
  */
 package Pantallas;
 
+import Entidades.Usuario;
+
 /**
  *
  * @author marti
  */
 public class pTipoPublicacion extends javax.swing.JFrame {
-
+    
+    private Usuario usuario;
+    
     /**
      * Creates new form pTipoPublicacion
+     * @param user
      */
-    public pTipoPublicacion() {
+    public pTipoPublicacion(Usuario user) {
         initComponents();
+        this.usuario = user;
     }
 
     /**
@@ -124,14 +130,14 @@ public class pTipoPublicacion extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         dispose();
-        pRegistrarPublicacion pReg = new pRegistrarPublicacion(this.cmbPublicacion.getSelectedItem().toString());
+        pRegistrarPublicacion pReg = new pRegistrarPublicacion(this.cmbPublicacion.getSelectedItem().toString(), usuario);
         pReg.setVisible(true);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         dispose();
-        pPrincipalEditor pEditor = new pPrincipalEditor();
+        pPrincipalEditor pEditor = new pPrincipalEditor(usuario);
         pEditor.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 

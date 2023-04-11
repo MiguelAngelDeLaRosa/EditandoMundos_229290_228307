@@ -30,7 +30,7 @@ public interface IOperacion {
     
     public List<Autor> consultarAutores();
     
-    public boolean consultarTipoDeUsuario(String nombre);
+    public Usuario consultarTipoDeUsuario(String nombre);
     
     public boolean verificarUsuario(String nombre, String password);
     

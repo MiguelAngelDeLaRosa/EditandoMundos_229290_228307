@@ -6,6 +6,7 @@
 package Pantallas;
 
 import Entidades.Publicacion;
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import java.util.List;
@@ -17,14 +18,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class pConsultarPublicacion extends javax.swing.JFrame {
     
-    DefaultTableModel dtmPublicaciones;
-    IOperacion op;
+    private DefaultTableModel dtmPublicaciones;
+    private IOperacion op;
+    private Usuario usuario;
     
     /**
      * Creates new form pPrincipalCliente
+     * @param user
      */
-    public pConsultarPublicacion() {
+    public pConsultarPublicacion(Usuario user) {
         initComponents();
+        this.usuario = user;
         this.txtBuscar.setVisible(true);
         this.btnBuscar.setVisible(true);
         op = SOperacion.getOperacion();
@@ -86,7 +90,6 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        btnRegAutor = new javax.swing.JButton();
         btnRegPubli = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -103,16 +106,6 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
         jLabel1.setText("Editando Mundos");
 
         jPanel2.setBackground(new java.awt.Color(0, 102, 204));
-
-        btnRegAutor.setBackground(new java.awt.Color(0, 204, 204));
-        btnRegAutor.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnRegAutor.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegAutor.setText("Registrar Autor");
-        btnRegAutor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegAutorActionPerformed(evt);
-            }
-        });
 
         btnRegPubli.setBackground(new java.awt.Color(0, 204, 204));
         btnRegPubli.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -140,18 +133,15 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegPubli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(btnRegAutor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRegPubli, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(btnRegAutor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(15, 15, 15)
                 .addComponent(btnRegPubli)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
@@ -231,17 +221,10 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegAutorActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        pRegistrarAutor pRegAutor= new pRegistrarAutor();
-        pRegAutor.setVisible(true);
-    }//GEN-LAST:event_btnRegAutorActionPerformed
-
     private void btnRegPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegPubliActionPerformed
         // TODO add your handling code here:
         dispose();
-        pTipoPublicacion pTipPubli= new pTipoPublicacion();
+        pTipoPublicacion pTipPubli= new pTipoPublicacion(usuario);
         pTipPubli.setVisible(true);
     }//GEN-LAST:event_btnRegPubliActionPerformed
 
@@ -270,7 +253,6 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnRegAutor;
     private javax.swing.JButton btnRegPubli;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;

@@ -6,8 +6,10 @@
 package Pantallas;
 
 import Entidades.Autor;
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -24,6 +26,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
     private String tipoPublicacion;
     private float tamMegas;
     private String tipoPago;
+    private Usuario usuario;
     
     /**
      * Creates new form pTipoPublicacion
@@ -32,16 +35,18 @@ public class pMostrarCosto extends javax.swing.JFrame {
      * @param tipoPago
      * @param tipoPublicacion
      * @param nPaginas
+     * @param user
      */
-    public pMostrarCosto(float costo, float precioVenta, String tipoPago, String tipoPublicacion, int nPaginas) {
+    public pMostrarCosto(float costo, float precioVenta, String tipoPago, String tipoPublicacion, int nPaginas, Usuario user) {
         initComponents();
         op = SOperacion.getOperacion();
+        this.usuario = user;
         this.tipoPago = tipoPago;
+        this.tipoPublicacion = tipoPublicacion;
         this.txtCosto.setText(String.valueOf(costo));
         this.txtPrecio.setText(String.valueOf(precioVenta));
         this.nPaginas = nPaginas;
         String fechas[] = obtenerFechas();
-        System.out.println(fechas[0] + "" + fechas[1]);
         this.txtFechaInicio.setText(fechas[0]);
         this.txtFechaEntrega.setText(fechas[1]);
         this.txtMedioPago.setText(tipoPago);
@@ -122,7 +127,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
         btnAceptar.setBackground(new java.awt.Color(0, 204, 204));
         btnAceptar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnAceptar.setForeground(new java.awt.Color(0, 0, 0));
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText("Aceptar cotización");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
@@ -170,33 +175,31 @@ public class pMostrarCosto extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 75, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
+                .addGap(0, 75, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addGap(70, 70, 70))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAceptar)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFechaInicio)
-                            .addComponent(lblFechaEntrega))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCosto)
-                            .addComponent(txtPrecio)
-                            .addComponent(txtMedioPago)
-                            .addComponent(txtFechaInicio)
-                            .addComponent(txtFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFechaInicio)
+                    .addComponent(lblFechaEntrega))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCosto)
+                    .addComponent(txtPrecio)
+                    .addComponent(txtMedioPago)
+                    .addComponent(txtFechaInicio)
+                    .addComponent(txtFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAceptar)
+                .addGap(30, 30, 30)
+                .addComponent(btnCancelar)
+                .addGap(46, 46, 46))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +251,11 @@ public class pMostrarCosto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        aceptarCosto();
+        if (usuario == null){
+            JOptionPane.showMessageDialog(null, "Necesitas iniciar sesion\n para registrar una publicacion");
+        } else {
+            aceptarCosto();
+        }
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 

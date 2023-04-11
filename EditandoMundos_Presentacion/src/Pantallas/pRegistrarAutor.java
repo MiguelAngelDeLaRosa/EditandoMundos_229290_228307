@@ -5,6 +5,7 @@
  */
 package Pantallas;
 
+import Entidades.Usuario;
 import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import javax.swing.JOptionPane;
@@ -15,13 +16,16 @@ import javax.swing.JOptionPane;
  */
 public class pRegistrarAutor extends javax.swing.JFrame {
 
-    IOperacion op;
-
+    private IOperacion op;
+    private Usuario usuario;
+    
     /**
      * Creates new form pPrincipalCliente
+     * @param user
      */
-    public pRegistrarAutor() {
+    public pRegistrarAutor(Usuario user) {
         initComponents();
+        this.usuario = user;
         op = SOperacion.getOperacion();
     }
 
@@ -68,8 +72,8 @@ public class pRegistrarAutor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnRegPubli = new javax.swing.JButton();
-        btnConsulPubli = new javax.swing.JButton();
         btnInicio = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -100,23 +104,23 @@ public class pRegistrarAutor extends javax.swing.JFrame {
             }
         });
 
-        btnConsulPubli.setBackground(new java.awt.Color(0, 204, 204));
-        btnConsulPubli.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnConsulPubli.setForeground(new java.awt.Color(0, 0, 0));
-        btnConsulPubli.setText("Consultar Publicación");
-        btnConsulPubli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConsulPubliActionPerformed(evt);
-            }
-        });
-
         btnInicio.setBackground(new java.awt.Color(0, 204, 204));
         btnInicio.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnInicio.setForeground(new java.awt.Color(0, 0, 0));
-        btnInicio.setText("Salir");
+        btnInicio.setText("Inicio");
         btnInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInicioActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setBackground(new java.awt.Color(0, 204, 204));
+        btnSalir.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -127,9 +131,9 @@ public class pRegistrarAutor extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnConsulPubli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegPubli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -138,9 +142,9 @@ public class pRegistrarAutor extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(btnRegPubli)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnConsulPubli)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnInicio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -284,23 +288,23 @@ public class pRegistrarAutor extends javax.swing.JFrame {
     private void btnRegPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegPubliActionPerformed
         // TODO add your handling code here:
         dispose();
-        pTipoPublicacion pTipo = new pTipoPublicacion();
+        pTipoPublicacion pTipo = new pTipoPublicacion(usuario);
         pTipo.setVisible(true);
     }//GEN-LAST:event_btnRegPubliActionPerformed
-
-    private void btnConsulPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsulPubliActionPerformed
-        // TODO add your handling code here:
-        dispose();
-        pConsultarPublicacion pConsPubli = new pConsultarPublicacion();
-        pConsPubli.setVisible(true);
-    }//GEN-LAST:event_btnConsulPubliActionPerformed
 
     private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
         // TODO add your handling code here:
         dispose();
+        pPrincipalCliente pCliente = new pPrincipalCliente(usuario);
+        pCliente.setVisible(true);
+    }//GEN-LAST:event_btnInicioActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
         pLogin pLog = new pLogin();
         pLog.setVisible(true);
-    }//GEN-LAST:event_btnInicioActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         if (!camposVacios()) {
@@ -319,7 +323,7 @@ public class pRegistrarAutor extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         dispose();
-        pPrincipalEditor pEditor = new pPrincipalEditor();
+        pPrincipalEditor pEditor = new pPrincipalEditor(usuario);
         pEditor.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -348,9 +352,9 @@ public class pRegistrarAutor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnConsulPubli;
     private javax.swing.JButton btnInicio;
     private javax.swing.JButton btnRegPubli;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

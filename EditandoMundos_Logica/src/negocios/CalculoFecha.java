@@ -34,13 +34,10 @@ public class CalculoFecha {
             fechas[1].add(Calendar.DAY_OF_MONTH, 7);
         }
         String fechaForm[] = new String[2];
-        for (Calendar fecha : fechas){
-            int i = 0;
-            Date date = fecha.getTime();
+        for (int i = 0; i < fechas.length; i++){
+            Date date = fechas[i].getTime();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             fechaForm[i] = formato.format(date);
-            i++;
-            System.out.println(fechaForm[i]);
         }
         return fechaForm;
     }

@@ -229,7 +229,7 @@ public class pRegistrarUsuario extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Confirmar contraseña");
 
-        btnRegistrarse.setBackground(new java.awt.Color(51, 153, 255));
+        btnRegistrarse.setBackground(new java.awt.Color(0, 255, 255));
         btnRegistrarse.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegistrarse.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrarse.setText("Registrarse");
@@ -239,7 +239,7 @@ public class pRegistrarUsuario extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setBackground(new java.awt.Color(51, 153, 255));
+        btnCancelar.setBackground(new java.awt.Color(0, 255, 255));
         btnCancelar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("Cancelar");
