@@ -23,35 +23,64 @@ public class pMostrarCosto extends javax.swing.JFrame {
     private int paginaInicial;
     private String tipoPublicacion;
     private float tamMegas;
+    private String tipoPago;
     
     /**
      * Creates new form pTipoPublicacion
      * @param costo
      * @param precioVenta
+     * @param tipoPago
+     * @param tipoPublicacion
+     * @param nPaginas
      */
-    public pMostrarCosto(float costo, float precioVenta) {
+    public pMostrarCosto(float costo, float precioVenta, String tipoPago, String tipoPublicacion, int nPaginas) {
         initComponents();
         op = SOperacion.getOperacion();
+        this.tipoPago = tipoPago;
         this.txtCosto.setText(String.valueOf(costo));
         this.txtPrecio.setText(String.valueOf(precioVenta));
+        this.nPaginas = nPaginas;
+        String fechas[] = obtenerFechas();
+        System.out.println(fechas[0] + "" + fechas[1]);
+        this.txtFechaInicio.setText(fechas[0]);
+        this.txtFechaEntrega.setText(fechas[1]);
+        this.txtMedioPago.setText(tipoPago);
+        if (tipoPublicacion.equals("Digital")){
+            ocultarFechas();
+        }
     }
     
-    public void sendDataFisico(Autor autor, int nPaginas, String titulo, int paginaInicial,
-            String tipoPublicacion){
+    private void ocultarFechas(){
+        this.lblFechaInicio.setVisible(false);
+        this.txtFechaInicio.setVisible(false);
+        this.lblFechaEntrega.setVisible(false);
+        this.txtFechaEntrega.setVisible(false);
+    }
+    
+    public void sendDataFisico(Autor autor, String titulo, int paginaInicial){
         this.autor = autor;
-        this.nPaginas = nPaginas;
         this.titulo = titulo;
         this.paginaInicial = paginaInicial;
-        this.tipoPublicacion = tipoPublicacion;
     }
     
-    public void sendDataDigital(Autor autor, int nPaginas, String titulo, float tamMegas,
-            String tipoPublicacion){
+    public void sendDataDigital(Autor autor, String titulo, float tamMegas){
         this.autor = autor;
-        this.nPaginas = nPaginas;
         this.titulo = titulo;
         this.tamMegas = tamMegas;
-        this.tipoPublicacion = tipoPublicacion;
+    }
+    
+    private String[] obtenerFechas(){
+        return op.calcularFechas(nPaginas);
+    }
+    
+    private void aceptarCosto(){
+        if(tipoPublicacion.equals("Fisico")){
+            String fechas[] = obtenerFechas();
+            op.registrarPublicacionTipoFisico(autor, nPaginas, titulo, paginaInicial, tipoPublicacion, tipoPago, 
+                    fechas[0], fechas[1]);
+        } else {
+            op.registrarPublicacionTipoDigital(autor, nPaginas, titulo, tipoPublicacion, tamMegas, tipoPago);
+        }
     }
 
     /**
@@ -71,6 +100,12 @@ public class pMostrarCosto extends javax.swing.JFrame {
         txtCosto = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        lblFechaInicio = new javax.swing.JLabel();
+        lblFechaEntrega = new javax.swing.JLabel();
+        txtMedioPago = new javax.swing.JTextField();
+        txtFechaInicio = new javax.swing.JTextField();
+        txtFechaEntrega = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,30 +147,56 @@ public class pMostrarCosto extends javax.swing.JFrame {
 
         txtPrecio.setEditable(false);
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Medio de pago:");
+
+        lblFechaInicio.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblFechaInicio.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaInicio.setText("Fecha de inicio:");
+
+        lblFechaEntrega.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lblFechaEntrega.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaEntrega.setText("Fecha de entrega:");
+
+        txtMedioPago.setEnabled(false);
+
+        txtFechaInicio.setEnabled(false);
+
+        txtFechaEntrega.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(btnAceptar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCancelar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCosto)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))))
-                .addContainerGap(91, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 75, Short.MAX_VALUE)
+                        .addComponent(jLabel1)))
+                .addGap(70, 70, 70))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAceptar)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFechaInicio)
+                            .addComponent(lblFechaEntrega))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCosto)
+                            .addComponent(txtPrecio)
+                            .addComponent(txtMedioPago)
+                            .addComponent(txtFechaInicio)
+                            .addComponent(txtFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +211,19 @@ public class pMostrarCosto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(txtMedioPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFechaInicio)
+                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFechaEntrega)
+                    .addComponent(txtFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
@@ -165,7 +238,9 @@ public class pMostrarCosto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,12 +248,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
-        if(tipoPublicacion.equals("Fisico")){
-            op.registrarPublicacionTipoFisico(autor, nPaginas, titulo, paginaInicial, tipoPublicacion);
-        } else {
-            op.registrarPublicacionTipoDigital(autor, nPaginas, titulo, tipoPublicacion, tamMegas);
-        }
+        aceptarCosto();
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -194,8 +264,14 @@ public class pMostrarCosto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblFechaEntrega;
+    private javax.swing.JLabel lblFechaInicio;
     private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtFechaEntrega;
+    private javax.swing.JTextField txtFechaInicio;
+    private javax.swing.JTextField txtMedioPago;
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

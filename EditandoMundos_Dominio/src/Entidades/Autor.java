@@ -90,7 +90,7 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" + "id=" + id + ", nombre=" + nombre + ", edad=" + edad + ", nacionalidad=" + nacionalidad + '}';
+        return "Autor: " + nombre;
     }
     
     

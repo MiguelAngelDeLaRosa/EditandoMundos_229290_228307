@@ -37,6 +37,10 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         for (Autor autor : autores) {
             cmbAutor.addItem(autor);
         }
+        String tipoPagos[] = {"Efectivo", "Transferencia", "Tarjeta"};
+        for (String pago : tipoPagos){
+            cmbTipoPago.addItem(pago);
+        }
     }
     
     public void vaciarCampos(){
@@ -98,22 +102,24 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                     String titulo = this.txtTitulo.getText();
                     int paginaInicial = Integer.parseInt(this.txtVar.getText());
                     String tipoPublicacion = this.txtTipoPublicacion.getText();
+                    String tipoPago = (String) this.cmbTipoPago.getSelectedItem();
                     float costo = op.mostrarCosto(nPaginas);
                     float precioVenta = op.mostrarPrecioFisico(autor.getNacionalidad(), costo);
-                    pCostos = new pMostrarCosto(costo, precioVenta);
+                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas);
                     pCostos.setVisible(true);
-                    pCostos.sendDataFisico(autor, nPaginas, titulo, paginaInicial, tipoPublicacion);
+                    pCostos.sendDataFisico(autor, titulo, paginaInicial);
                 } else {
                     Autor autor = (Autor) this.cmbAutor.getSelectedItem();
                     int nPaginas = Integer.parseInt(this.txtPaginas.getText());
                     String titulo = this.txtTitulo.getText();
                     float tamMegas = Float.parseFloat(this.txtVar.getText());
                     String tipoPublicacion = this.txtTipoPublicacion.getText();
+                    String tipoPago = (String) this.cmbTipoPago.getSelectedItem();
                     float costo = op.mostrarCosto(nPaginas);
                     float precioVenta = op.mostrarPrecioDigital(tamMegas, costo);
-                    pCostos = new pMostrarCosto(costo, precioVenta);
+                    pCostos = new pMostrarCosto(costo, precioVenta, tipoPago, tipoPublicacion, nPaginas);
                     pCostos.setVisible(true);
-                    pCostos.sendDataDigital(autor, nPaginas, titulo, tamMegas, tipoPublicacion);
+                    pCostos.sendDataDigital(autor, titulo, tamMegas);
                 }
             }
         }
@@ -148,6 +154,8 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtTipoPublicacion = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        cmbTipoPago = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -291,22 +299,22 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Medio de pago:");
+
+        cmbTipoPago.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(57, 57, 57)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(btnAceptar)
-                        .addGap(119, 119, 119)
-                        .addComponent(btnCancelar)
-                        .addGap(132, 132, 132)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
@@ -318,8 +326,16 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                             .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                             .addComponent(cmbAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTipoPublicacion)
-                            .addComponent(txtVar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(120, Short.MAX_VALUE))
+                            .addComponent(txtVar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbTipoPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(102, 102, 102)
+                        .addComponent(btnCancelar)
+                        .addGap(92, 92, 92)
+                        .addComponent(btnAceptar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,15 +357,19 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                     .addComponent(jlbVar)
                     .addComponent(txtVar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(cmbTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(txtTipoPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addGap(69, 69, 69)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -363,7 +383,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(323, 323, 323)
                 .addComponent(jLabel1)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -373,7 +393,9 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -457,10 +479,12 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     private javax.swing.JButton btnRegAutor;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<Object> cmbAutor;
+    private javax.swing.JComboBox<String> cmbTipoPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

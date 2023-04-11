@@ -10,6 +10,7 @@ import Entidades.Usuario;
 import comunicacion.IOperacion;
 import implementaciones.Singleton;
 import interfaces.IFachada;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import validadores.Validadores;
@@ -22,18 +23,21 @@ public class Operacion implements IOperacion {
     
     private final IFachada fachada;
     private final Cotizacion cotizar;
+    private final CalculoFecha calculo;
     
     public Operacion() {
         this.fachada = Singleton.getFachada();
         this.cotizar = new Cotizacion();
+        this.calculo = new CalculoFecha();
     }
     
     @Override
     public boolean registrarPublicacionTipoFisico(Autor autor, int nPaginas, String titulo, 
-            int paginaInicial, String tipoPublicacion){
+            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega){
         float costoFinal = cotizar.calcularCosto(nPaginas);
         float precioFinal = cotizar.calcularPrecioFisico(autor.getNacionalidad(), costoFinal);
-        Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, paginaInicial, precioFinal, tipoPublicacion);
+        Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, paginaInicial, 
+                precioFinal, tipoPublicacion, medioPago, fechaInicio, fechaEntrega);
         
         if(fachada.agregarPublicacion(p)){
             JOptionPane.showMessageDialog(null, "Se agrego la publicacion");
@@ -44,18 +48,12 @@ public class Operacion implements IOperacion {
     
     @Override
     public boolean registrarPublicacionTipoDigital(Autor autor, int nPaginas, String titulo, 
-            String tipoPublicacion, float tamMegas){
+            String tipoPublicacion, float tamMegas, String medioPago){
         System.out.println(nPaginas);
         float costoFinal = cotizar.calcularCosto(nPaginas);
         float precioFinal = cotizar.calcularPrecioDigital(tamMegas, costoFinal);
-        Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, precioFinal, tipoPublicacion, tamMegas);
-        p.setAutor(autor);
-        p.setnPaginas(nPaginas);
-        p.setCosto(costoFinal);
-        p.setTitulo(titulo);
-        p.setPrecioVenta(precioFinal);
-        p.setTipoPublicacion(tipoPublicacion);
-        p.setTamMegas(tamMegas);
+        Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, precioFinal, tipoPublicacion, 
+                tamMegas, medioPago);
         
         if(fachada.agregarPublicacion(p)){
             JOptionPane.showMessageDialog(null, "Se agrego la publicacion");
@@ -170,6 +168,11 @@ public class Operacion implements IOperacion {
     public boolean validarFecha(String cadena) {
         Validadores validar = new Validadores();
         return validar.validaFecha(cadena);
+    }
+
+    @Override
+    public String[] calcularFechas(int nPaginas) {
+        return calculo.calcularFechas(nPaginas);
     }
 
 }

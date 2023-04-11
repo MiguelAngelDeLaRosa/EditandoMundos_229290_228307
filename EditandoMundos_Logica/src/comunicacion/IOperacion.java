@@ -7,6 +7,7 @@ package comunicacion;
 import Entidades.Autor;
 import Entidades.Publicacion;
 import Entidades.Usuario;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -16,10 +17,10 @@ import java.util.List;
 public interface IOperacion {
     
     public boolean registrarPublicacionTipoFisico(Autor autor, int nPaginas, String titulo, 
-            int paginaInicial, String tipoPublicacion);
+            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega);
     
     public boolean registrarPublicacionTipoDigital(Autor autor, int nPaginas, String titulo, 
-            String tipoPublicacion, float tamMegas);
+            String tipoPublicacion, float tamMegas, String medioPago);
     
     public boolean registrarAutor(String nombre, int edad, String nacionalidad);
     
@@ -51,4 +52,6 @@ public interface IOperacion {
     public boolean validarEmail(String cadena);
     
     public boolean validarFecha(String cadena);
+    
+    public String[] calcularFechas(int nPaginas);
 }

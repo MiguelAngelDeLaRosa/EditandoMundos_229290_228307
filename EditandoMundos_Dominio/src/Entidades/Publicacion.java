@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import java.util.Calendar;
 import java.util.Objects;
 import org.bson.types.ObjectId;
 
@@ -22,12 +23,16 @@ public class Publicacion {
     private float precioVenta;
     private String tipoPublicacion;
     private float tamMegas;
+    private String tipoPago;
+    private String fechaInicio;
+    private String fechaEntrega;
 
     public Publicacion(){
         
     }
-    
-    public Publicacion(Autor autor, int nPaginas, float costo, String titulo, int paginaInicial, float precioVenta, String tipoPublicacion) {
+
+    public Publicacion(Autor autor, int nPaginas, float costo, String titulo, int paginaInicial, 
+            float precioVenta, String tipoPublicacion, String tipoPago, String fechaInicio, String fechaEntrega) {
         this.autor = autor;
         this.nPaginas = nPaginas;
         this.costo = costo;
@@ -35,9 +40,25 @@ public class Publicacion {
         this.paginaInicial = paginaInicial;
         this.precioVenta = precioVenta;
         this.tipoPublicacion = tipoPublicacion;
+        this.tipoPago = tipoPago;
+        this.fechaInicio = fechaInicio;
+        this.fechaEntrega = fechaEntrega;
     }
 
-    public Publicacion(ObjectId id, Autor autor, int nPaginas, float costo, String titulo, int paginaInicial, float precioVenta, String tipoPublicacion) {
+    public Publicacion(Autor autor, int nPaginas, float costo, String titulo, 
+            float precioVenta, String tipoPublicacion, float tamMegas, String tipoPago) {
+        this.autor = autor;
+        this.nPaginas = nPaginas;
+        this.costo = costo;
+        this.titulo = titulo;
+        this.precioVenta = precioVenta;
+        this.tipoPublicacion = tipoPublicacion;
+        this.tamMegas = tamMegas;
+        this.tipoPago = tipoPago;
+    }
+
+    public Publicacion(ObjectId id, Autor autor, int nPaginas, float costo, 
+            String titulo, int paginaInicial, float precioVenta, String tipoPublicacion, String tipoPago, String fechaInicio, String fechaEntrega) {
         this.id = id;
         this.autor = autor;
         this.nPaginas = nPaginas;
@@ -46,19 +67,13 @@ public class Publicacion {
         this.paginaInicial = paginaInicial;
         this.precioVenta = precioVenta;
         this.tipoPublicacion = tipoPublicacion;
+        this.tipoPago = tipoPago;
+        this.fechaInicio = fechaInicio;
+        this.fechaEntrega = fechaEntrega;
     }
 
-    public Publicacion(Autor autor, int nPaginas, float costo, String titulo, float precioVenta, String tipoPublicacion, float tamMegas) {
-        this.autor = autor;
-        this.nPaginas = nPaginas;
-        this.costo = costo;
-        this.titulo = titulo;
-        this.precioVenta = precioVenta;
-        this.tipoPublicacion = tipoPublicacion;
-        this.tamMegas = tamMegas;
-    }
-
-    public Publicacion(ObjectId id, Autor autor, int nPaginas, float costo, String titulo, float precioVenta, String tipoPublicacion, float tamMegas) {
+    public Publicacion(ObjectId id, Autor autor, int nPaginas, float costo, 
+            String titulo, float precioVenta, String tipoPublicacion, float tamMegas, String tipoPago) {
         this.id = id;
         this.autor = autor;
         this.nPaginas = nPaginas;
@@ -67,6 +82,24 @@ public class Publicacion {
         this.precioVenta = precioVenta;
         this.tipoPublicacion = tipoPublicacion;
         this.tamMegas = tamMegas;
+        this.tipoPago = tipoPago;
+    }
+
+    public Publicacion(ObjectId id, Autor autor, int nPaginas, float costo, 
+            String titulo, int paginaInicial, float precioVenta, 
+            String tipoPublicacion, float tamMegas, String tipoPago, String fechaInicio, String fechaEntrega) {
+        this.id = id;
+        this.autor = autor;
+        this.nPaginas = nPaginas;
+        this.costo = costo;
+        this.titulo = titulo;
+        this.paginaInicial = paginaInicial;
+        this.precioVenta = precioVenta;
+        this.tipoPublicacion = tipoPublicacion;
+        this.tamMegas = tamMegas;
+        this.tipoPago = tipoPago;
+        this.fechaInicio = fechaInicio;
+        this.fechaEntrega = fechaEntrega;
     }
 
     public ObjectId getId() {
@@ -141,6 +174,30 @@ public class Publicacion {
         this.tamMegas = tamMegas;
     }
 
+    public String getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(String fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public String getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -165,7 +222,10 @@ public class Publicacion {
 
     @Override
     public String toString() {
-        return "Publicacion{" + "id=" + id + ", autor=" + autor + ", nPaginas=" + nPaginas + ", costo=" + costo + ", titulo=" + titulo + ", paginaInicial=" + paginaInicial + ", precioVenta=" + precioVenta + ", tipoPublicacion=" + tipoPublicacion + ", tamMegas=" + tamMegas + '}';
+        return "Publicacion{" + "id=" + id + ", autor=" + autor + ", nPaginas=" + nPaginas + ", costo=" + costo + 
+                ", titulo=" + titulo + ", paginaInicial=" + paginaInicial + ", precioVenta=" + precioVenta + 
+                ", tipoPublicacion=" + tipoPublicacion + ", tamMegas=" + tamMegas + ", tipoPago=" + tipoPago + 
+                ", fechaInicio=" + fechaInicio + ", fechaEntrega=" + fechaEntrega + '}';
     }
 
 }

@@ -22,7 +22,7 @@ public class Prueba {
         
 //        op.registrarAutor("Octavio Paz", 42, "mexicana");
         Autor autor = new Autor(new ObjectId("6418afd29f794b02c01251cf"), "Octavio Paz", 42, "mexicano");
-        op.registrarPublicacionTipoFisico(autor, 250, "Piedra del sol", 30, "Fisico");
+//        op.registrarPublicacionTipoFisico(autor, 250, "Piedra del sol", 30, "Fisico");
 
         op.consultarPublicaciones().forEach(p->{
             System.out.println(p);
