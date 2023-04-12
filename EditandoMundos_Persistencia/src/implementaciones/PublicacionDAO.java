@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import interfaces.IConexionBD;
 import interfaces.IPublicacionDAO;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -92,10 +93,12 @@ public class PublicacionDAO implements IPublicacionDAO {
     @Override
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega) {
         try{
-            Document query = new Document("fechaEntrega", fechaEntrega);
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Document filtro = new Document(fechaEntrega, new Document("$gte", formato.parse("01/01/2023")));
+            Document orden = new Document(fechaEntrega, -1);
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
-            coleccion.find(query).into(listaPublicaciones);
+            coleccion.find(filtro).sort(orden).into(listaPublicaciones);
             return listaPublicaciones;
         } catch(Exception ex){
             System.out.println(ex.getMessage());
@@ -107,7 +110,13 @@ public class PublicacionDAO implements IPublicacionDAO {
     @Override
     public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago) {
         try{
-            Document query = new Document("tipoPago", tipoPago);
+            Document query = null;
+            if (tipoPago.equals("Tarjeta")){
+                query = new Document("tipoPago", tipoPago);
+            } else {
+                tipoPago = "Tarjeta";
+                query = new Document("tipoPago", new Document("$ne", tipoPago));
+            }
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
             coleccion.find(query).into(listaPublicaciones);
