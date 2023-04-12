@@ -58,6 +58,21 @@ public class Fachada implements IFachada {
     public List<Publicacion> consultarPublicacionesPorTitulo(String titulo) {
         return publicacionDAO.consultarPublicacionesPorTitulo(titulo);
     }
+    
+    @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion){
+        return publicacionDAO.consultarPublicacionesPorTipoPublicacion(tipoPublicacion);
+    }
+    
+    @Override
+    public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega){
+        return publicacionDAO.consultarPublicacionesPorFechaEntrega(fechaEntrega);
+    }
+    
+    @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago){
+        return publicacionDAO.consultarPublicacionesPorTipoPago(tipoPago);
+    }
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {

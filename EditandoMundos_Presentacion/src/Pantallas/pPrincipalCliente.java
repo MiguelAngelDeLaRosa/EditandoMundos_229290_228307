@@ -36,10 +36,24 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         dtmPublicaciones = new DefaultTableModel();
         setModelo();
         setDatos();
+        llenarCombobox();
+    }
+    
+    private void llenarCombobox(){
+        String tipoPublicacionConsulta[] = {"Seleccionar", "Digital", "Fisico"};
+        for (String tipo: tipoPublicacionConsulta){
+            cmbTipoPublicacion.addItem(tipo);
+        }
+        
+        String tipoConsulta[] = {"Seleccionar", "fechaEntrega", "pendientes por pagar", "pagadas"};
+        for (String tipo: tipoConsulta){
+            cmbTipoConsulta.addItem(tipo);
+        }
     }
 
     private void setModelo() {
-        String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial", "Precio", "Tipo de publicacion", "TamMB"};
+        String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial", 
+            "Precio", "Tipo de publicacion", "TamMB", "tipoPago", "fechaInicio", "fechaEntrega"};
         dtmPublicaciones.setColumnIdentifiers(cabecera);
         jTable1.setModel(dtmPublicaciones);
     }
@@ -57,11 +71,15 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[5] = p.getPrecioVenta();
             fila[6] = p.getTipoPublicacion();
             fila[7] = p.getTamMegas();
+            fila[8] = p.getTipoPago();
+            fila[9] = p.getFechaInicio();
+            fila[10] = p.getFechaEntrega();
             dtmPublicaciones.addRow(fila);
         });
     }
 
     private void buscarTitulos() {
+        String tipoBusqueda = (String)cmbTipoPublicacion.getSelectedItem();
         List<Publicacion> publicaciones = op.consultarPublicacionesPorTitulo(this.txtBuscar.getText());
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
@@ -74,8 +92,15 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[5] = p.getPrecioVenta();
             fila[6] = p.getTipoPublicacion();
             fila[7] = p.getTamMegas();
+            fila[8] = p.getTipoPago();
+            fila[9] = p.getFechaInicio();
+            fila[10] = p.getFechaEntrega();
             dtmPublicaciones.addRow(fila);
         });
+    }
+    
+    private void consultarPorTipoPublicacion(){
+        
     }
 
     /**
@@ -93,6 +118,10 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         btnRegAutor = new javax.swing.JButton();
         btnRegPubli = new javax.swing.JButton();
+        cmbTipoPublicacion = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        cmbTipoConsulta = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
@@ -138,6 +167,16 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             }
         });
 
+        cmbTipoPublicacion.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel2.setText("Consultar por tipo de publicacion");
+
+        cmbTipoConsulta.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setText("Consultar por:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -145,11 +184,16 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbTipoPublicacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegAutor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegPubli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbTipoConsulta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -161,7 +205,15 @@ public class pPrincipalCliente extends javax.swing.JFrame {
                 .addComponent(btnRegPubli)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(cmbTipoPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(cmbTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
         );
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -191,7 +243,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 90, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -274,7 +326,11 @@ public class pPrincipalCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnRegAutor;
     private javax.swing.JButton btnRegPubli;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox<String> cmbTipoConsulta;
+    private javax.swing.JComboBox<String> cmbTipoPublicacion;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -28,6 +28,12 @@ public interface IOperacion {
     
     public List<Publicacion> consultarPublicacionesPorTitulo(String titulo);
     
+    public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion);
+    
+    public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
+    
+    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
+    
     public List<Autor> consultarAutores();
     
     public Usuario consultarTipoDeUsuario(String nombre);

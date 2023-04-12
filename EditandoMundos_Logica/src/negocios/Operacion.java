@@ -85,6 +85,21 @@ public class Operacion implements IOperacion {
     }
     
     @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion){
+        return fachada.consultarPublicacionesPorTipoPublicacion(tipoPublicacion);
+    }
+    
+    @Override
+    public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega){
+        return fachada.consultarPublicacionesPorFechaEntrega(fechaEntrega);
+    }
+    
+    @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago){
+        return fachada.consultarPublicacionesPorTipoPago(tipoPago);
+    }
+    
+    @Override
     public List<Autor> consultarAutores(){
         List<Autor> autores = fachada.consultarAutores();
         return autores;

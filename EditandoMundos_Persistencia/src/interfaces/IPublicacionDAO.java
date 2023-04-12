@@ -17,5 +17,11 @@ public interface IPublicacionDAO {
     
     public List<Publicacion> consultarTodos();
     
-    public List<Publicacion> consultarPublicacionesPorTitulo(String titulo);
+    public List<Publicacion> consultarPublicacionesPorTitulo(String busqueda);
+    
+    public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion);
+    
+    public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
+    
+    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
 }

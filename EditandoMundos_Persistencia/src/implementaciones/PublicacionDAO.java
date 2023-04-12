@@ -73,4 +73,49 @@ public class PublicacionDAO implements IPublicacionDAO {
             return null;
         }
     }
+
+    @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion) {
+        try{
+            Document query = new Document("tipoPublicacion", tipoPublicacion);
+            MongoCollection coleccion = this.getCollection();
+            List<Publicacion> listaPublicaciones = new LinkedList<>();
+            coleccion.find(query).into(listaPublicaciones);
+            return listaPublicaciones;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega) {
+        try{
+            Document query = new Document("fechaEntrega", fechaEntrega);
+            MongoCollection coleccion = this.getCollection();
+            List<Publicacion> listaPublicaciones = new LinkedList<>();
+            coleccion.find(query).into(listaPublicaciones);
+            return listaPublicaciones;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago) {
+        try{
+            Document query = new Document("tipoPago", tipoPago);
+            MongoCollection coleccion = this.getCollection();
+            List<Publicacion> listaPublicaciones = new LinkedList<>();
+            coleccion.find(query).into(listaPublicaciones);
+            return listaPublicaciones;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }
