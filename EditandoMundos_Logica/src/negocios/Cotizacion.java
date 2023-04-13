@@ -27,19 +27,21 @@ public class Cotizacion {
         float precioVenta = 0f;
         
         if(nacionalidad.equalsIgnoreCase("mexicano") || nacionalidad.equalsIgnoreCase("mexicana")){
-            return precioVenta = costo + (costo*0.15f);
+            precioVenta = costo + (costo*0.15f);
         } else {
-            return precioVenta = costo + (costo*0.25f);
+            precioVenta = costo + (costo*0.25f);
         }
+        return precioVenta;
     }
     
     public float calcularPrecioDigital(float tamMegas, float costo){
         float precioVenta = 0f;
         
         if(tamMegas <= 2.5){
-            return precioVenta = costo + (costo*0.10f);
+            precioVenta = costo + (costo*0.10f);
         } else {
-            return precioVenta = costo + (costo*0.15f);
+            precioVenta = costo + (costo*0.15f);
         }
+        return precioVenta;
     }
 }

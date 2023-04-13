@@ -21,6 +21,11 @@ public class Autor {
     public Autor() {
     }
 
+    public Autor(String nombre, String nacionalidad) {
+        this.nombre = nombre;
+        this.nacionalidad = nacionalidad;
+    }
+
     public Autor(String nombre) {
         this.nombre = nombre;
     }

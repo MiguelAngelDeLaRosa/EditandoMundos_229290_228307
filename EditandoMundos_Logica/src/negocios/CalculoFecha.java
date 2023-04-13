@@ -27,10 +27,10 @@ public class CalculoFecha {
         if (nPaginas < 500){
             fechas[1].add(Calendar.DAY_OF_MONTH, 3);
         }
-        if (nPaginas > 500 && nPaginas < 1000){
+        if (nPaginas >= 500 && nPaginas < 1000){
             fechas[1].add(Calendar.DAY_OF_MONTH, 5);
         }
-        if (nPaginas > 1000){
+        if (nPaginas >= 1000){
             fechas[1].add(Calendar.DAY_OF_MONTH, 7);
         }
         String fechaForm[] = new String[2];

@@ -124,7 +124,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         pMostrarCosto pCostos;
         if (!camposVacios()) {
             if (validarCampos()) {
-                if (jlbVar.getText().equals("Fisico")) {
+                if (txtTipoPublicacion.getText().equals("Fisico")) {
                     Autor autor = crearAutor();
                     int nPaginas = Integer.parseInt(this.txtPaginas.getText());
                     String titulo = this.txtTitulo.getText();
