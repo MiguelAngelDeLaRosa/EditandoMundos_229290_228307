@@ -6,12 +6,14 @@ package implementaciones;
 
 import Entidades.Usuario;
 import interfaces.IUsuarioDAO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.bson.types.ObjectId;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -22,19 +24,19 @@ public class UsuarioDAOTest {
     public UsuarioDAOTest() {
     }
     
-    @BeforeAll
+    @BeforeClass
     public static void setUpClass() {
     }
     
-    @AfterAll
+    @AfterClass
     public static void tearDownClass() {
     }
     
-    @BeforeEach
+    @Before
     public void setUp() {
     }
     
-    @AfterEach
+    @After
     public void tearDown() {
     }
 
@@ -45,9 +47,20 @@ public class UsuarioDAOTest {
      public void testConsultarUsuario() {
          System.out.println("Consultar usuario");
          IUsuarioDAO usuario = DAOSFactory.crearUsuarioDAO();
-         Usuario expResult = new Usuario("Mary", "MA123", "Maria", 
+         Usuario expResult = new Usuario(new ObjectId("643475090bf048528980e87d"), "Mary", "MA123", "Maria", 
                  "64414783202", "San Marcos", "maria@gmail.com", false);
          Usuario result = usuario.consultarUsuario(expResult.getNombreUsuario());
+         assertEquals(expResult, result);
+     }
+     
+     @Test
+     public void testRegistrarUsuario(){
+         System.out.println("Registrar usuario");
+         IUsuarioDAO usuario = DAOSFactory.crearUsuarioDAO();
+         boolean expResult = true;
+         Usuario userTest = new Usuario("Archy", "AR1234", "Archivaldo", 
+                 "6441423712", "San Chavo", "archi@gmail.com", true);
+         boolean result = usuario.registrarUsuario(userTest);
          assertEquals(expResult, result);
      }
 }
