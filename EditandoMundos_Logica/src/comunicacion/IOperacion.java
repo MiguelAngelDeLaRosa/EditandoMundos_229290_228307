@@ -17,10 +17,10 @@ import org.bson.types.ObjectId;
 public interface IOperacion {
     
     public boolean registrarPublicacionTipoFisico(Autor autor, int nPaginas, String titulo, 
-            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega);
+            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega, String estado);
     
     public boolean registrarPublicacionTipoDigital(Autor autor, int nPaginas, String titulo, 
-            String tipoPublicacion, float tamMegas, String medioPago);
+            String tipoPublicacion, float tamMegas, String medioPago, String estado);
     
     public boolean registrarAutor(String nombre, int edad, String nacionalidad);
     
@@ -32,9 +32,9 @@ public interface IOperacion {
     
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
     
-    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
+    public List<Publicacion> consultarPublicacionesPorEstado(String estado);
     
-    public boolean pagarAdeudo(String pago, ObjectId id);
+    public boolean pagarAdeudo(float pago, String estado, ObjectId id);
     
     public List<Autor> consultarAutores();
     

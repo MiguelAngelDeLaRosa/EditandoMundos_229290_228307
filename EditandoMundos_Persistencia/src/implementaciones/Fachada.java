@@ -71,8 +71,8 @@ public class Fachada implements IFachada {
     }
     
     @Override
-    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago){
-        return publicacionDAO.consultarPublicacionesPorTipoPago(tipoPago);
+    public List<Publicacion> consultarPublicacionesPorEstado(String estado){
+        return publicacionDAO.consultarPublicacionesPorEstado(estado);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Fachada implements IFachada {
     }
 
     @Override
-    public boolean pagarPublicacion(String pago, ObjectId id) {
-        return publicacionDAO.pagarPublicacion(pago, id);
+    public boolean pagarPublicacion(float pago, String estado, ObjectId id) {
+        return publicacionDAO.pagarPublicacion(pago, estado, id);
     }
 }

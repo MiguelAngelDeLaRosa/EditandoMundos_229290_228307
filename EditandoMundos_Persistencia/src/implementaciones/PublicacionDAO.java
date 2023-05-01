@@ -110,14 +110,14 @@ public class PublicacionDAO implements IPublicacionDAO {
     }
 
     @Override
-    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago) {
+    public List<Publicacion> consultarPublicacionesPorEstado(String estado) {
         try{
             Document query = null;
-            if (tipoPago.equals("Tarjeta")){
-                query = new Document("tipoPago", tipoPago);
+            if (estado.equals("Pagado")){
+                query = new Document("estado", estado);
             } else {
-                tipoPago = "Tarjeta";
-                query = new Document("tipoPago", new Document("$ne", tipoPago));
+                estado = "Pendiente por pagar";
+                query = new Document("estado", estado);
             }
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
@@ -131,11 +131,14 @@ public class PublicacionDAO implements IPublicacionDAO {
     }
 
     @Override
-    public boolean pagarPublicacion(String pago, ObjectId id) {
+    public boolean pagarPublicacion(float pago, String estado, ObjectId id) {
         try {
             MongoCollection<Publicacion> coleccion = this.getCollection();
             Document filtro = new Document("_id", id);
-            Document nuevo = new Document("$set", new Document("tipoPago", pago));
+            Document cambios = new Document();
+            cambios.append("costo", pago);
+            cambios.append("estado", estado);
+            Document nuevo = new Document("$set", cambios);
             coleccion.updateOne(filtro, nuevo);
             return true;
         } catch (Exception ex) {

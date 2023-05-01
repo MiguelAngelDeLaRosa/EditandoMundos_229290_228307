@@ -28,7 +28,7 @@ public interface IFachada {
     
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
     
-    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
+    public List<Publicacion> consultarPublicacionesPorEstado(String estado);
     
     public List<Autor> consultarAutores();
     
@@ -36,5 +36,5 @@ public interface IFachada {
     
     public boolean registrarUsuario(Usuario usuario);
     
-    public boolean pagarPublicacion(String pago, ObjectId id);
+    public boolean pagarPublicacion(float pago, String estado, ObjectId id);
 }

@@ -26,6 +26,7 @@ public class Publicacion {
     private String tipoPago;
     private String fechaInicio;
     private String fechaEntrega;
+    private String estado;
 
     public Publicacion(){
         
@@ -198,6 +199,14 @@ public class Publicacion {
         this.fechaEntrega = fechaEntrega;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -225,7 +234,7 @@ public class Publicacion {
         return "Publicacion{" + "autor=" + autor + ", nPaginas=" + nPaginas + ", costo=" + costo + 
                 ", titulo=" + titulo + ", paginaInicial=" + paginaInicial + ", precioVenta=" + precioVenta + 
                 ", tipoPublicacion=" + tipoPublicacion + ", tamMegas=" + tamMegas + ", tipoPago=" + tipoPago + 
-                ", fechaInicio=" + fechaInicio + ", fechaEntrega=" + fechaEntrega + '}';
+                ", fechaInicio=" + fechaInicio + ", fechaEntrega=" + fechaEntrega + "estado=" + estado + '}';
     }
 
 }

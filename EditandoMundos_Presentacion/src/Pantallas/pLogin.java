@@ -57,6 +57,7 @@ public class pLogin extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Contraseña:");
 
+        txtUsuario.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         txtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsuarioActionPerformed(evt);
@@ -86,6 +87,8 @@ public class pLogin extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
+
+        txtPassword.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
         btnRegistrarse.setBackground(new java.awt.Color(204, 204, 204));
         btnRegistrarse.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N

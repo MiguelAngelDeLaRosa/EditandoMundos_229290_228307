@@ -17,42 +17,35 @@ public class pPagarPublicacion extends javax.swing.JFrame {
 
     private IOperacion operacion;
     private Publicacion publicacion;
-    
+
     /**
      * Creates new form pPagarPublicacion
+     *
      * @param publicacion
      */
     public pPagarPublicacion(Publicacion publicacion) {
         initComponents();
         this.publicacion = publicacion;
         operacion = SOperacion.getOperacion();
-        llenarCombobox();
         llenarCampos(publicacion);
     }
-    
-    private void llenarCombobox(){
-        String tipoPagos[] = {"Seleccionar", "Transferencia", "Tarjeta"};
-        for (String pago : tipoPagos) {
-            cmbTipoPago.addItem(pago);
-        }
-    }
-    
-    private void llenarCampos(Publicacion publicacion){
-        txtCosto.setText(String.valueOf(publicacion.getCosto()));
+
+    private void llenarCampos(Publicacion publicacion) {
+        float diferencia = publicacion.getCosto();
+        txtCosto.setText(String.valueOf(diferencia));
         txtTitulo.setText(publicacion.getTitulo());
     }
-    
-    private void pagarAdeudo(){
-        String tipoPago = (String) cmbTipoPago.getSelectedItem();
-        if (!tipoPago.equals("Seleccionar")){
-            if (operacion.pagarAdeudo(tipoPago, publicacion.getId())){
-                JOptionPane.showMessageDialog(null, "Se ha pagado la publicacion: "+publicacion.getTitulo());
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al pagar adeudo");
-            }
+
+    private void pagarAdeudo() {
+        float nuevoPago = publicacion.getCosto()*2;
+        String estado = "Pagado";
+        if (operacion.pagarAdeudo(nuevoPago, estado, publicacion.getId())) {
+            JOptionPane.showMessageDialog(null, "Se ha pagado la publicacion: " + publicacion.getTitulo());
         } else {
-            JOptionPane.showMessageDialog(null, "Debe selccionar un medio de pago");
+            JOptionPane.showMessageDialog(null, "Error al pagar adeudo");
         }
+        dispose();
+        this.setVisible(false);
     }
 
     /**
@@ -67,10 +60,8 @@ public class pPagarPublicacion extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
-        cmbTipoPago = new javax.swing.JComboBox<>();
         btnPagar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -87,10 +78,6 @@ public class pPagarPublicacion extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Total a pagar:");
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Medio de pago:");
 
         txtTitulo.setEditable(false);
         txtTitulo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -127,29 +114,26 @@ public class pPagarPublicacion extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnPagar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar))
+                        .addGap(181, 181, 181)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(130, 130, 130)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnPagar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                .addComponent(btnCancelar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel1))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtTitulo)
-                                    .addComponent(txtCosto)
-                                    .addComponent(cmbTipoPago, 0, 148, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(jLabel4)))
-                        .addGap(15, 15, 15)))
-                .addContainerGap(119, Short.MAX_VALUE))
+                                    .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                                    .addComponent(txtCosto))))))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,15 +148,11 @@ public class pPagarPublicacion extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cmbTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82)
+                .addGap(79, 79, 79)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPagar)
                     .addComponent(btnCancelar))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -203,10 +183,8 @@ public class pPagarPublicacion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPagar;
-    private javax.swing.JComboBox<String> cmbTipoPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtCosto;

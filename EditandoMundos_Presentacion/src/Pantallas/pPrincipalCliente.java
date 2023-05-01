@@ -55,7 +55,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
 
     private void setModelo() {
         String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial", 
-            "Precio", "Tipo de publicacion", "TamMB", "tipoPago", "fechaInicio", "fechaEntrega"};
+            "Precio", "Tipo de publicacion", "TamMB", "tipoPago", "fechaInicio", "fechaEntrega", "estado"};
         dtmPublicaciones.setColumnIdentifiers(cabecera);
         tabla.setModel(dtmPublicaciones);
     }
@@ -76,6 +76,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[8] = p.getTipoPago();
             fila[9] = p.getFechaInicio();
             fila[10] = p.getFechaEntrega();
+            fila[11] = p.getEstado();
             dtmPublicaciones.addRow(fila);
         });
     }
@@ -97,6 +98,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[8] = p.getTipoPago();
             fila[9] = p.getFechaInicio();
             fila[10] = p.getFechaEntrega();
+            fila[11] = p.getEstado();
             dtmPublicaciones.addRow(fila);
         });
     }
@@ -117,6 +119,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[8] = p.getTipoPago();
             fila[9] = p.getFechaInicio();
             fila[10] = p.getFechaEntrega();
+            fila[11] = p.getEstado();
             dtmPublicaciones.addRow(fila);
         });
     }
@@ -127,11 +130,12 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             publicaciones = op.consultarPublicacionesPorFechaEntrega(opcion);
         }
         if (opcion.equals("pendientes por pagar")){
-            opcion = "Tarjeta";
-            publicaciones = op.consultarPublicacionesPorTipoPago(opcion);
+            opcion = "Pendiente por pagar";
+            publicaciones = op.consultarPublicacionesPorEstado(opcion);
         }
         if (opcion.equals("pagadas")){
-            publicaciones = op.consultarPublicacionesPorTipoPago(opcion);
+            opcion = "Pagado";
+            publicaciones = op.consultarPublicacionesPorEstado(opcion);
         }
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
@@ -147,6 +151,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
             fila[8] = p.getTipoPago();
             fila[9] = p.getFechaInicio();
             fila[10] = p.getFechaEntrega();
+            fila[11] = p.getEstado();
             dtmPublicaciones.addRow(fila);
         });
     }
@@ -444,7 +449,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
                     break;
                 }
             }
-            if (publicacion.getTipoPago().equals("Tarjeta")){
+            if (publicacion.getEstado().equals("Pendiente por pagar")){
                 pPagarPublicacion pagar = new pPagarPublicacion(publicacion);
                 pagar.setVisible(true);
             }

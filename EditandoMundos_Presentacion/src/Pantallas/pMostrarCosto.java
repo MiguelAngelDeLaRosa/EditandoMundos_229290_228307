@@ -11,13 +11,12 @@ import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author marti
  */
 public class pMostrarCosto extends javax.swing.JFrame {
-    
+
     private final IOperacion op;
     private Autor autor;
     private int nPaginas;
@@ -26,10 +25,13 @@ public class pMostrarCosto extends javax.swing.JFrame {
     private String tipoPublicacion;
     private float tamMegas;
     private String tipoPago;
+    private String estado;
+    private int click;
     private Usuario usuario;
-    
+
     /**
      * Creates new form pTipoPublicacion
+     *
      * @param costo
      * @param precioVenta
      * @param tipoPago
@@ -40,6 +42,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
     public pMostrarCosto(float costo, float precioVenta, String tipoPago, String tipoPublicacion, int nPaginas, Usuario user) {
         initComponents();
         op = SOperacion.getOperacion();
+        this.estado = "Pagado";
         this.usuario = user;
         this.tipoPago = tipoPago;
         this.tipoPublicacion = tipoPublicacion;
@@ -50,41 +53,58 @@ public class pMostrarCosto extends javax.swing.JFrame {
         this.txtFechaInicio.setText(fechas[0]);
         this.txtFechaEntrega.setText(fechas[1]);
         this.txtMedioPago.setText(tipoPago);
-        if (tipoPublicacion.equals("Digital")){
+        if (tipoPublicacion.equals("Digital")) {
             ocultarFechas();
         }
+        ocultarBoton(costo);
     }
-    
-    private void ocultarFechas(){
+
+    private void ocultarFechas() {
         this.lblFechaInicio.setVisible(false);
         this.txtFechaInicio.setVisible(false);
         this.lblFechaEntrega.setVisible(false);
         this.txtFechaEntrega.setVisible(false);
     }
-    
-    public void sendDataFisico(Autor autor, String titulo, int paginaInicial){
+
+    public void sendDataFisico(Autor autor, String titulo, int paginaInicial) {
         this.autor = autor;
         this.titulo = titulo;
         this.paginaInicial = paginaInicial;
     }
-    
-    public void sendDataDigital(Autor autor, String titulo, float tamMegas){
+
+    public void sendDataDigital(Autor autor, String titulo, float tamMegas) {
         this.autor = autor;
         this.titulo = titulo;
         this.tamMegas = tamMegas;
     }
-    
-    private String[] obtenerFechas(){
+
+    private void ocultarBoton(float costo) {
+        if (costo < 1000) {
+            btnEstado.setVisible(true);
+        } else {
+            btnEstado.setVisible(false);
+        }
+    }
+
+    private void pagarMitad(int click) {
+        float costo = Float.parseFloat(txtCosto.getText());
+        estado = "Pendiente por pagar";
+        costo = costo / 2;
+        txtCosto.setText(String.valueOf(costo));
+        click = 1;
+    }
+
+    private String[] obtenerFechas() {
         return op.calcularFechas(nPaginas);
     }
-    
-    private void aceptarCosto(){
-        if(tipoPublicacion.equals("Fisico")){
+
+    private void aceptarCosto() {
+        if (tipoPublicacion.equals("Fisico")) {
             String fechas[] = obtenerFechas();
-            op.registrarPublicacionTipoFisico(autor, nPaginas, titulo, paginaInicial, tipoPublicacion, tipoPago, 
-                    fechas[0], fechas[1]);
+            op.registrarPublicacionTipoFisico(autor, nPaginas, titulo, paginaInicial, tipoPublicacion, tipoPago,
+                    fechas[0], fechas[1], estado);
         } else {
-            op.registrarPublicacionTipoDigital(autor, nPaginas, titulo, tipoPublicacion, tamMegas, tipoPago);
+            op.registrarPublicacionTipoDigital(autor, nPaginas, titulo, tipoPublicacion, tamMegas, tipoPago, estado);
         }
     }
 
@@ -111,6 +131,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
         txtMedioPago = new javax.swing.JTextField();
         txtFechaInicio = new javax.swing.JTextField();
         txtFechaEntrega = new javax.swing.JTextField();
+        btnEstado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,12 +191,21 @@ public class pMostrarCosto extends javax.swing.JFrame {
 
         txtFechaEntrega.setEnabled(false);
 
+        btnEstado.setBackground(new java.awt.Color(204, 204, 204));
+        btnEstado.setForeground(new java.awt.Color(0, 0, 0));
+        btnEstado.setText("pagar mitad");
+        btnEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 75, Short.MAX_VALUE)
+                .addGap(0, 101, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(70, 70, 70))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -193,11 +223,13 @@ public class pMostrarCosto extends javax.swing.JFrame {
                     .addComponent(txtMedioPago)
                     .addComponent(txtFechaInicio)
                     .addComponent(txtFechaEntrega, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnEstado)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAceptar)
-                .addGap(30, 30, 30)
+                .addGap(26, 26, 26)
                 .addComponent(btnCancelar)
                 .addGap(46, 46, 46))
         );
@@ -213,7 +245,8 @@ public class pMostrarCosto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEstado))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -226,11 +259,11 @@ public class pMostrarCosto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFechaEntrega)
                     .addComponent(txtFechaEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addGap(57, 57, 57))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -241,9 +274,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -251,7 +282,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        if (usuario == null){
+        if (usuario == null) {
             JOptionPane.showMessageDialog(null, "Necesitas iniciar sesion\n para registrar una publicacion");
         } else {
             aceptarCosto();
@@ -264,10 +295,16 @@ public class pMostrarCosto extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoActionPerformed
+        pagarMitad(click);
+        btnEstado.setEnabled(false);
+    }//GEN-LAST:event_btnEstadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

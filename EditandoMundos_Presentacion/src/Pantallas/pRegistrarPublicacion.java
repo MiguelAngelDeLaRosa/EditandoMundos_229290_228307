@@ -42,6 +42,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
             if (usuario.isEsAutor()) {
                 this.lblAutor.setVisible(false);
                 this.cmbAutor.setVisible(false);
+                this.btnRegAutor.setVisible(false);
             }
         }
     }
@@ -157,9 +158,10 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         if (usuario.isEsAutor()) {
             pConsultarPublicacion pConsPubli = new pConsultarPublicacion(usuario);
             pConsPubli.setVisible(true);
+        } else {
+            pPrincipalCliente pCliente = new pPrincipalCliente(usuario);
+            pCliente.setVisible(true);
         }
-        pPrincipalCliente pCliente = new pPrincipalCliente(usuario);
-        pCliente.setVisible(true);
     }
 
     /**

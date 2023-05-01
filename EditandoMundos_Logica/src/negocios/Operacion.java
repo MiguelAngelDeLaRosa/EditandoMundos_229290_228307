@@ -34,12 +34,15 @@ public class Operacion implements IOperacion {
 
     @Override
     public boolean registrarPublicacionTipoFisico(Autor autor, int nPaginas, String titulo,
-            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega) {
+            int paginaInicial, String tipoPublicacion, String medioPago, String fechaInicio, String fechaEntrega, String estado) {
         float costoFinal = cotizar.calcularCosto(nPaginas);
         float precioFinal = cotizar.calcularPrecioFisico(autor.getNacionalidad(), costoFinal);
+        if (estado.equals("Pendiente por pagar")){
+            costoFinal = costoFinal / 2;
+        }
         Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, paginaInicial,
                 precioFinal, tipoPublicacion, medioPago, fechaInicio, fechaEntrega);
-
+        p.setEstado(estado);
         if (fachada.agregarPublicacion(p)) {
             JOptionPane.showMessageDialog(null, "Se agrego la publicacion");
             return true;
@@ -49,13 +52,16 @@ public class Operacion implements IOperacion {
 
     @Override
     public boolean registrarPublicacionTipoDigital(Autor autor, int nPaginas, String titulo,
-            String tipoPublicacion, float tamMegas, String medioPago) {
+            String tipoPublicacion, float tamMegas, String medioPago, String estado) {
         System.out.println(nPaginas);
         float costoFinal = cotizar.calcularCosto(nPaginas);
         float precioFinal = cotizar.calcularPrecioDigital(tamMegas, costoFinal);
+        if (estado.equals("Pendiente por pagar")){
+            costoFinal = costoFinal / 2;
+        }
         Publicacion p = new Publicacion(autor, nPaginas, costoFinal, titulo, precioFinal, tipoPublicacion,
                 tamMegas, medioPago);
-
+        p.setEstado(estado);
         if (fachada.agregarPublicacion(p)) {
             JOptionPane.showMessageDialog(null, "Se agrego la publicacion");
             return true;
@@ -96,8 +102,8 @@ public class Operacion implements IOperacion {
     }
 
     @Override
-    public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago) {
-        return fachada.consultarPublicacionesPorTipoPago(tipoPago);
+    public List<Publicacion> consultarPublicacionesPorEstado(String estado) {
+        return fachada.consultarPublicacionesPorEstado(estado);
     }
 
     @Override
@@ -193,8 +199,8 @@ public class Operacion implements IOperacion {
     }
 
     @Override
-    public boolean pagarAdeudo(String pago, ObjectId id) {
-        return fachada.pagarPublicacion(pago, id);
+    public boolean pagarAdeudo(float pago, String estado, ObjectId id) {
+        return fachada.pagarPublicacion(pago, estado, id);
     }
 
 }
