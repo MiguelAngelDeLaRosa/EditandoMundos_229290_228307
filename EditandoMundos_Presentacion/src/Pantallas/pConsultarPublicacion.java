@@ -11,6 +11,7 @@ import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,13 +19,14 @@ import javax.swing.table.DefaultTableModel;
  * @author marti
  */
 public class pConsultarPublicacion extends javax.swing.JFrame {
-    
+
     private DefaultTableModel dtmPublicaciones;
     private IOperacion op;
     private Usuario usuario;
-    
+
     /**
      * Creates new form pPrincipalCliente
+     *
      * @param user
      */
     public pConsultarPublicacion(Usuario user) {
@@ -34,35 +36,35 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
         this.btnBuscar.setVisible(true);
         op = SOperacion.getOperacion();
         dtmPublicaciones = new DefaultTableModel();
-        
+
         setModelo();
         setDatos();
         llenarCombobox();
     }
-    
-    private void llenarCombobox(){
+
+    private void llenarCombobox() {
         String tipoPublicacionConsulta[] = {"Seleccionar", "Digital", "Fisico"};
-        for (String tipo: tipoPublicacionConsulta){
+        for (String tipo : tipoPublicacionConsulta) {
             cmbTipoPublicacion.addItem(tipo);
         }
         String tipoConsulta[] = {"Seleccionar", "fechaEntrega", "pendientes por pagar", "pagadas"};
-        for (String tipo: tipoConsulta){
+        for (String tipo : tipoConsulta) {
             cmbTipoConsulta.addItem(tipo);
         }
     }
-    
-    private void setModelo(){
-        String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial", 
+
+    private void setModelo() {
+        String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial",
             "Precio", "tipoPublicacion", "TamMB", "tipoPago", "fechaInicio", "fechaEntrega"};
         dtmPublicaciones.setColumnIdentifiers(cabecera);
-        jTable1.setModel(dtmPublicaciones);
+        tabla.setModel(dtmPublicaciones);
     }
-    
-    private void setDatos(){
+
+    private void setDatos() {
         List<Publicacion> publicaciones = op.consultarPublicaciones();
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
-        publicaciones.forEach(p->{
+        publicaciones.forEach(p -> {
             fila[0] = p.getAutor().getNombre();
             fila[1] = p.getnPaginas();
             fila[2] = p.getCosto();
@@ -77,12 +79,12 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
             dtmPublicaciones.addRow(fila);
         });
     }
-    
-    private void buscarTitulos(){
+
+    private void buscarTitulos() {
         List<Publicacion> publicaciones = op.consultarPublicacionesPorTitulo(this.txtBuscar.getText());
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
-        publicaciones.forEach(p->{
+        publicaciones.forEach(p -> {
             fila[0] = p.getAutor().getNombre();
             fila[1] = p.getnPaginas();
             fila[2] = p.getCosto();
@@ -97,12 +99,12 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
             dtmPublicaciones.addRow(fila);
         });
     }
-    
-    private void buscarTipoPublicacion(String opcion){
+
+    private void buscarTipoPublicacion(String opcion) {
         List<Publicacion> publicaciones = op.consultarPublicacionesPorTipoPublicacion(opcion);
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
-        publicaciones.forEach(p->{
+        publicaciones.forEach(p -> {
             fila[0] = p.getAutor().getNombre();
             fila[1] = p.getnPaginas();
             fila[2] = p.getCosto();
@@ -117,22 +119,22 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
             dtmPublicaciones.addRow(fila);
         });
     }
-    
-    private void buscarConsulta(String opcion){
+
+    private void buscarConsulta(String opcion) {
         List<Publicacion> publicaciones = null;
-        if (opcion.equals("fechaEntrega")){
+        if (opcion.equals("fechaEntrega")) {
             publicaciones = op.consultarPublicacionesPorFechaEntrega(opcion);
         }
-        if (opcion.equals("pendientes por pagar")){
+        if (opcion.equals("pendientes por pagar")) {
             opcion = "Tarjeta";
             publicaciones = op.consultarPublicacionesPorTipoPago(opcion);
         }
-        if (opcion.equals("pagadas")){
+        if (opcion.equals("pagadas")) {
             publicaciones = op.consultarPublicacionesPorTipoPago(opcion);
         }
         Object[] fila = new Object[dtmPublicaciones.getColumnCount()];
         dtmPublicaciones.setRowCount(0);
-        publicaciones.forEach(p->{
+        publicaciones.forEach(p -> {
             fila[0] = p.getAutor().getNombre();
             fila[1] = p.getnPaginas();
             fila[2] = p.getCosto();
@@ -147,7 +149,7 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
             dtmPublicaciones.addRow(fila);
         });
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -169,7 +171,7 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
         btnConsultar1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
@@ -280,7 +282,30 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jScrollPane1.setViewportView(jTable1);
+        tabla = new JTable(){
+            public boolean isCellEditable(int row, int column){
+                for (int i = 0; i < tabla.getRowCount(); i++){
+                    if (row == i){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -356,7 +381,7 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
     private void btnRegPubliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegPubliActionPerformed
         // TODO add your handling code here:
         dispose();
-        pTipoPublicacion pTipPubli= new pTipoPublicacion(usuario);
+        pTipoPublicacion pTipPubli = new pTipoPublicacion(usuario);
         pTipPubli.setVisible(true);
     }//GEN-LAST:event_btnRegPubliActionPerformed
 
@@ -388,7 +413,7 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         String busqueda = (String) cmbTipoPublicacion.getSelectedItem();
-        if (!busqueda.equals("Seleccionar")){
+        if (!busqueda.equals("Seleccionar")) {
             buscarTipoPublicacion(busqueda);
         } else {
             JOptionPane.showMessageDialog(null, "Necesita seleccionar una opcion");
@@ -397,12 +422,30 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
 
     private void btnConsultar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultar1ActionPerformed
         String busqueda = (String) cmbTipoConsulta.getSelectedItem();
-        if (!busqueda.equals("Seleccionar")){
+        if (!busqueda.equals("Seleccionar")) {
             buscarConsulta(busqueda);
         } else {
             JOptionPane.showMessageDialog(null, "Necesita seleccionar una opcion");
         }
     }//GEN-LAST:event_btnConsultar1ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        if (evt.getClickCount() == 2) {
+            List<Publicacion> publicaciones = op.consultarPublicaciones();
+            Publicacion publicacion = null;
+            int row = tabla.getSelectedRow();
+            for (int i = 0; i < dtmPublicaciones.getRowCount(); i++) {
+                if (row == i) {
+                    publicacion = publicaciones.get(i);
+                    break;
+                }
+            }
+            if (publicacion.getTipoPago().equals("Tarjeta")) {
+                pPagarPublicacion pagar = new pPagarPublicacion(publicacion);
+                pagar.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -419,7 +462,7 @@ public class pConsultarPublicacion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

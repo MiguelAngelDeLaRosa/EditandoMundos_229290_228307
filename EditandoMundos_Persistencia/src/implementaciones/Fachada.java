@@ -12,6 +12,7 @@ import interfaces.IFachada;
 import interfaces.IPublicacionDAO;
 import interfaces.IUsuarioDAO;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -77,5 +78,10 @@ public class Fachada implements IFachada {
     @Override
     public boolean registrarUsuario(Usuario usuario) {
         return usuarioDAO.registrarUsuario(usuario);
+    }
+
+    @Override
+    public boolean pagarPublicacion(String pago, ObjectId id) {
+        return publicacionDAO.pagarPublicacion(pago, id);
     }
 }

@@ -43,6 +43,7 @@ public class OperacionTest {
 
     /**
      * Test of registrarAutor method, of class Operacion.
+     * Integracion
      */
     @Test
     public void testRegistrarAutor() {
@@ -58,6 +59,7 @@ public class OperacionTest {
 
     /**
      * Test of verificarUsuario method, of class Operacion.
+     * Integracion
      */
     @Test
     public void testVerificarUsuario() {

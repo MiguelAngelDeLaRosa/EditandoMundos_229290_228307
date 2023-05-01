@@ -11,6 +11,7 @@ import comunicacion.IOperacion;
 import comunicacion.SOperacion;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -56,7 +57,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         String cabecera[] = {"Autor", "#Paginas", "Costo", "Titulo", "Pagina inicial", 
             "Precio", "Tipo de publicacion", "TamMB", "tipoPago", "fechaInicio", "fechaEntrega"};
         dtmPublicaciones.setColumnIdentifiers(cabecera);
-        jTable1.setModel(dtmPublicaciones);
+        tabla.setModel(dtmPublicaciones);
     }
 
     private void setDatos() {
@@ -172,7 +173,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         btnConsultar = new javax.swing.JButton();
         btnConsultar1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
@@ -294,7 +295,23 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         );
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+
+        tabla = new JTable(){
+            public boolean isCellEditable(int row, int column){
+                for (int i = 0; i < tabla.getRowCount(); i++){
+                    if (row == i){
+                        return false;
+                    }
+                }
+                return true;
+            }
+        };
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -416,6 +433,24 @@ public class pPrincipalCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConsultar1ActionPerformed
 
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        if (evt.getClickCount() == 2){
+            List<Publicacion> publicaciones = op.consultarPublicaciones();
+            Publicacion publicacion = null;
+            int row = tabla.getSelectedRow();
+            for (int i = 0; i < dtmPublicaciones.getRowCount(); i++) {
+                if (row == i){
+                    publicacion = publicaciones.get(i);
+                    break;
+                }
+            }
+            if (publicacion.getTipoPago().equals("Tarjeta")){
+                pPagarPublicacion pagar = new pPagarPublicacion(publicacion);
+                pagar.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConsultar;
@@ -431,7 +466,7 @@ public class pPrincipalCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabla;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

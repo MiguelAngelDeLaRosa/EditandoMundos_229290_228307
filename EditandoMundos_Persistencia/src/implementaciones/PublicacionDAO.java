@@ -10,10 +10,12 @@ import com.mongodb.client.MongoDatabase;
 import interfaces.IConexionBD;
 import interfaces.IPublicacionDAO;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -125,6 +127,21 @@ public class PublicacionDAO implements IPublicacionDAO {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean pagarPublicacion(String pago, ObjectId id) {
+        try {
+            MongoCollection<Publicacion> coleccion = this.getCollection();
+            Document filtro = new Document("_id", id);
+            Document nuevo = new Document("$set", new Document("tipoPago", pago));
+            coleccion.updateOne(filtro, nuevo);
+            return true;
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return false;
         }
     }
 }

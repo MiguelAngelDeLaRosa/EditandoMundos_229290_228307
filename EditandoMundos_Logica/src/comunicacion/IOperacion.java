@@ -8,6 +8,7 @@ import Entidades.Autor;
 import Entidades.Publicacion;
 import Entidades.Usuario;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -32,6 +33,8 @@ public interface IOperacion {
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
     
     public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
+    
+    public boolean pagarAdeudo(String pago, ObjectId id);
     
     public List<Autor> consultarAutores();
     

@@ -8,6 +8,7 @@ import Entidades.Autor;
 import Entidades.Publicacion;
 import Entidades.Usuario;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -34,4 +35,6 @@ public interface IFachada {
     public Usuario consultarUsuario(String nombre);
     
     public boolean registrarUsuario(Usuario usuario);
+    
+    public boolean pagarPublicacion(String pago, ObjectId id);
 }

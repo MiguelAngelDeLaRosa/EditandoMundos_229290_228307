@@ -13,6 +13,7 @@ import interfaces.IFachada;
 import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.bson.types.ObjectId;
 import validadores.Validadores;
 
 /**
@@ -189,6 +190,11 @@ public class Operacion implements IOperacion {
     @Override
     public String[] calcularFechas(int nPaginas) {
         return calculo.calcularFechas(nPaginas);
+    }
+
+    @Override
+    public boolean pagarAdeudo(String pago, ObjectId id) {
+        return fachada.pagarPublicacion(pago, id);
     }
 
 }

@@ -6,6 +6,7 @@ package interfaces;
 
 import Entidades.Publicacion;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -24,4 +25,6 @@ public interface IPublicacionDAO {
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega);
     
     public List<Publicacion> consultarPublicacionesPorTipoPago(String tipoPago);
+    
+    public boolean pagarPublicacion(String pago, ObjectId id);
 }
