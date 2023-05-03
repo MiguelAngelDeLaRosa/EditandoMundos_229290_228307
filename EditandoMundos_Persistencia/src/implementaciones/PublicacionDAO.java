@@ -7,10 +7,12 @@ package implementaciones;
 import Entidades.Publicacion;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import interfaces.IConexionBD;
 import interfaces.IPublicacionDAO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -37,11 +39,11 @@ public class PublicacionDAO implements IPublicacionDAO {
 
     @Override
     public boolean agregar(Publicacion publicacion) {
-        try{
+        try {
             MongoCollection coleccion = this.getCollection();
             coleccion.insertOne(publicacion);
             return true;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return false;
@@ -50,27 +52,27 @@ public class PublicacionDAO implements IPublicacionDAO {
 
     @Override
     public List<Publicacion> consultarTodos() {
-        try{
+        try {
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
             coleccion.find().into(listaPublicaciones);
             return listaPublicaciones;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;
         }
     }
-    
+
     @Override
-    public List<Publicacion> consultarPublicacionesPorTitulo(String titulo){
-        try{
+    public List<Publicacion> consultarPublicacionesPorTitulo(String titulo) {
+        try {
             Document query = new Document("titulo", Pattern.compile(titulo, Pattern.CASE_INSENSITIVE));
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
             coleccion.find(query).into(listaPublicaciones);
             return listaPublicaciones;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;
@@ -79,13 +81,13 @@ public class PublicacionDAO implements IPublicacionDAO {
 
     @Override
     public List<Publicacion> consultarPublicacionesPorTipoPublicacion(String tipoPublicacion) {
-        try{
+        try {
             Document query = new Document("tipoPublicacion", tipoPublicacion);
             MongoCollection coleccion = this.getCollection();
             List<Publicacion> listaPublicaciones = new LinkedList<>();
             coleccion.find(query).into(listaPublicaciones);
             return listaPublicaciones;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;
@@ -94,15 +96,17 @@ public class PublicacionDAO implements IPublicacionDAO {
 
     @Override
     public List<Publicacion> consultarPublicacionesPorFechaEntrega(String fechaEntrega) {
-        try{
+        try {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            Document filtro = new Document(fechaEntrega, new Document("$gte", formato.parse("01/01/2023")));
-            Document orden = new Document(fechaEntrega, -1);
             MongoCollection coleccion = this.getCollection();
+            List<Document> etapas = new ArrayList<>();
+            etapas.add(new Document("$match", new Document()
+                    .append(fechaEntrega, new Document("$gte", formato.parse("01/04/2023")))
+                    .append("tipoPublicacion", "Fisico")));
             List<Publicacion> listaPublicaciones = new LinkedList<>();
-            coleccion.find(filtro).sort(orden).into(listaPublicaciones);
+            coleccion.aggregate(etapas).into(listaPublicaciones);
             return listaPublicaciones;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;
@@ -111,9 +115,9 @@ public class PublicacionDAO implements IPublicacionDAO {
 
     @Override
     public List<Publicacion> consultarPublicacionesPorEstado(String estado) {
-        try{
+        try {
             Document query = null;
-            if (estado.equals("Pagado")){
+            if (estado.equals("Pagado")) {
                 query = new Document("estado", estado);
             } else {
                 estado = "Pendiente por pagar";
@@ -123,7 +127,7 @@ public class PublicacionDAO implements IPublicacionDAO {
             List<Publicacion> listaPublicaciones = new LinkedList<>();
             coleccion.find(query).into(listaPublicaciones);
             return listaPublicaciones;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
             return null;

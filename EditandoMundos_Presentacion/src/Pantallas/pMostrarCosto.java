@@ -26,7 +26,6 @@ public class pMostrarCosto extends javax.swing.JFrame {
     private float tamMegas;
     private String tipoPago;
     private String estado;
-    private int click;
     private Usuario usuario;
 
     /**
@@ -86,12 +85,11 @@ public class pMostrarCosto extends javax.swing.JFrame {
         }
     }
 
-    private void pagarMitad(int click) {
+    private void pagarMitad() {
         float costo = Float.parseFloat(txtCosto.getText());
         estado = "Pendiente por pagar";
         costo = costo / 2;
         txtCosto.setText(String.valueOf(costo));
-        click = 1;
     }
 
     private String[] obtenerFechas() {
@@ -296,7 +294,7 @@ public class pMostrarCosto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoActionPerformed
-        pagarMitad(click);
+        pagarMitad();
         btnEstado.setEnabled(false);
     }//GEN-LAST:event_btnEstadoActionPerformed
 
