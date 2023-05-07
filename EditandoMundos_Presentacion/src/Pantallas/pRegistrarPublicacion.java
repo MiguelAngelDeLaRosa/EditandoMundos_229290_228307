@@ -112,6 +112,7 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
         if (usuario != null) {
             if (usuario.isEsAutor()) {
                 autor = new Autor(usuario.getNombreCliente());
+                autor.setNacionalidad("Es autor");
             } else {
                 autor = (Autor) this.cmbAutor.getSelectedItem();
             }
@@ -485,10 +486,10 @@ public class pRegistrarPublicacion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtTituloKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTituloKeyTyped
-        char c = evt.getKeyChar();
-        if (Character.isDigit(c)) {
-            evt.consume();
-        }
+//        char c = evt.getKeyChar();
+//        if (Character.isDigit(c)) {
+//            evt.consume();
+//        }
     }//GEN-LAST:event_txtTituloKeyTyped
 
     private void txtPaginasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaginasKeyTyped
